@@ -1,4 +1,4 @@
-i![](Top.png)
+![](Top.png)
 
 # Requirements
 
