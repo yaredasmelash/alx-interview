@@ -8,26 +8,16 @@ meet a given amount total
 
 
 def makeChange(coins, total):
-    """
-    Given a pile of coins of different values, determine the fewest
-    number of coins needed to meet a given amount total.
-    Return: fewest number of coins needed to meet total
-        - If total is 0 or less, return 0
-        - If total cannot be met by any number of coins you have, return -1
-        - Coins is a list of the values of the coins in your possession
-        - The value of a coin will always be an integer greater than 0
-        - You can assume you have an infinite number of each denomination of
-        coin in the list
-    """
-    n_coins = 0
-    if total <= 0:
-        return n_coins
-    coins.sort(reverse=True)
-    while (total > 0 and coins):
-        n = int(total / coins[0])
-        total = total - (coins[0] * n)
-        n_coins = n_coins + n
-        coins.remove(coins[0])
-    if total != 0:
+    # Create a list to store the minimum number of coins needed for each amount from 0 to total
+    dp = [float('inf')] * (total + 1)
+    dp[0] = 0  # 0 coins needed to make 0 amount
+
+    for coin in coins:
+        for amount in range(coin, total + 1):
+            dp[amount] = min(dp[amount], dp[amount - coin] + 1)
+
+    # If the minimum number of coins is still infinity, return -1
+    if dp[total] == float('inf'):
         return -1
-    return n_coins
+    else:
+        return dp[total]
